@@ -1,0 +1,182 @@
+//Group 4
+//Record Class
+
+
+//REVISION HISTORY
+//1. Nickolas Carter
+//
+
+
+public class Record{
+  
+   //initializes proper variables
+   int IDNum; 
+   string firstName;
+   string lastName;
+   string dob;
+   string phone;
+   string userName;
+   string password;
+   double startWeight;
+   double percentVeg;
+   double percentProt;
+   double percentCarb;
+   double percentCardio;
+   double percentStrength;
+   HashMap<Date, ArrayList<Food>> foodDiary;
+   HashMap<Date, ArrayList<Exercise>> exerciseDiary;
+   HashMap<Date, double> weightProgress;
+   Date today;
+
+   //builds record object, minimm requirements to build object are name, idnum and dob
+   public Record(int IDNum,string firstName,string lastName, string dob)
+   {
+   IDNum=this.IDNum;
+   firstName=this.firstName;
+   lastName=this.lastName;
+   dob=this.dob;
+  
+   }
+   
+   //ensures that the password is correct, returns false if incorect
+   public Boolean passwordVerify(string testpassword){
+   
+      if (testpassword==password)
+           return true;
+		   
+		   return false;
+   }
+   
+   //sets firstName
+   public void setfirstName(String addName){
+			firstName = addName;
+		}
+	
+//sets last name	
+   public void setlastName(String addName){
+			lastName = addName;
+		}
+		
+   
+	//sets phone number	
+	public void setPhone(String updatePhone){
+			phone = updatePhone;
+		}
+		
+	//sets date of birth
+	public void setDob(Date dateOfBirth){
+			dob = dateOfBirth;
+		}
+	
+	//sets current days date
+	public void setDob(Date currentday){
+			today = currentday;
+		}
+	
+	//sets the starting weight
+	public void setStartWeight(double addStartWeight){
+			startWeight = addStartWeight;
+		}
+	
+	//sets starting diet composition
+	public void setStartDiet(double veg, double meat, double carb){
+			percentVeg = veg;
+			percentMeat = meat;
+			percentCarb = carb;
+		}
+	
+	
+	//sets the starting exercise composition
+	publlic void setStartExercies(double cardio, double strength){
+			percentCardio = cardio;
+			percentStrength = strength;
+		}
+
+	//saves a daily weight metric	
+	public void saveDailyWeight(double newWeight){
+			weightProgress.put(today, newWeight);
+		}
+		
+	//saves the daily food consumpion
+	public void saveFoodDiary(ArrayList<Food> newEntries){
+			foodDiary.put(today, newEntries);
+		}
+		
+	//saves daily exercise regimen 
+	public void saveExerciseDiary(ArrayList<Exercise> newEntries){
+			exerciseDiary.put(today, newEntries);
+		}
+
+   
+   //returns id number
+   public int getIDNum(){
+	   return IDNum;
+   }
+   
+   //returns name
+   public string getName(){
+	   return firstName+" "+lastName;
+   }
+   
+   //returns date of birth
+   public Date getDOB(){
+	   return dob;
+   }
+   
+    //returns phone number
+    public String getPhone(){
+	   return phone;
+   }
+   
+   //retrns starting weight
+    public Double getStartWeight(){
+	   return startWeight;
+   }
+   
+   //returns percent of vegetables
+    public Double getPercentVeg()
+	return percentVeg;
+   }
+   
+   //returns proteing percent of diet
+    public Double getPercentProt(){
+	   return percentProt;
+   }
+   
+   //retrns carb as percent of diet
+    public Double getPercentCarb(){
+	   return percentCarb;
+   }
+   
+   //gets cardio training percent
+    public Double getPercentCardio(){
+	   return percentCardio;
+   }
+   
+   //gets strength training percent
+    public Double getPercentStrength(){
+	   return percentStrength;
+   }
+   
+   //gets exercise diary arraylist
+   public ArrayList<> getExerciseDiary(Date now){
+	   return exerciseDiary.get(now);
+   }
+   
+   //gets food diary arraylist
+   public ArrayList<> getFoodDiary(Date now){
+	   return foodDiary.get(now);
+   }
+   
+   //gets weight progress arraylist
+   public ArrayList<> getWeightProgress(Date now){
+	   return weightprogress.get(now);
+   }
+   
+   
+   
+   
+   
+
+
+}

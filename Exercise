@@ -1,0 +1,27 @@
+/*
+ * Group 4
+ * Exercise Class
+ */
+package fitnesstracker;
+
+/**
+ * Revision History
+ * Revision 1: Kimberly Waddle, Initial Class, 3 December 2017
+ */
+public class Exercise {
+    
+    private String type;
+    private String name;
+    
+    public Exercise(String exType, String exName){
+        type = exType;
+        name = exName;
+    }
+    
+    public String getType(){
+        return type;
+    }
+    public String getName(){
+        return name;
+    }
+}

@@ -1,0 +1,253 @@
+/*
+ * Group 4
+ * Main Testing Class
+ */
+package fitnesstracker;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+
+/**
+ * Revision History
+ * Revision 1: Kimberly Waddle
+ */
+
+
+public class FitnessTracker extends JFrame {
+    
+    JFrame programFrame = new JFrame("Wellness Tracker");
+    JLabel fNameLabel = new JLabel("First Name");
+    JLabel lNameLabel = new JLabel("Last Name");
+    JLabel dobLabel = new JLabel("DOB");
+    JLabel passwordLabel = new JLabel("Password");
+    JLabel usernameLabel = new JLabel("Username");
+    JLabel emailLabel = new JLabel("E-mail address");
+    JLabel homeAddressLabel = new JLabel("Home Address");
+    JLabel phoneLabel = new JLabel("Phone");
+    JLabel startingWeightLabel = new JLabel("Starting Weight");
+    JLabel goalWeightLabel = new JLabel("Goal Weight");
+    JLabel IDLabel = new JLabel("Client ID");
+    JButton newAccountButton = new JButton("Create Account");
+    JButton loginButton = new JButton("Login");
+    JTextField fNameField = new JTextField();
+    JTextField lNameField = new JTextField();
+    JTextField dobField = new JTextField();
+    JTextField passwordField = new JTextField();
+    JTextField usernameField = new JTextField();
+    JTextField emailField = new JTextField();
+    JTextField homeAddressField = new JTextField();
+    JTextField phoneField = new JTextField();
+    JTextField startingWeightField = new JTextField();
+    JTextField goalWeightField = new JTextField();
+    JTextField IDField = new JTextField();
+    JPanel contentPanel = new JPanel();
+    JPanel phonePanel = new JPanel();
+    
+    String[] phoneType = {"Home", "Mobile", "Work"};
+    JComboBox phoneComboBox = new JComboBox(phoneType);
+    
+    ArrayList<JTextField> fields = new ArrayList<JTextField>();
+    HashMap<String, Record> clients = new HashMap<String, Record>();
+    int count = 0;
+    
+    public FitnessTracker(){
+        
+        showForm();
+    }
+    
+    public void showForm(){
+        programFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        GridLayout contentLayout = new GridLayout(0, 2);
+        contentPanel.setLayout(contentLayout);
+        
+        Dimension componentDimension = new Dimension(100, 25);
+        
+        IDLabel.setPreferredSize(componentDimension);
+        IDField.setPreferredSize(componentDimension);
+        IDField.setEditable(false);
+        contentPanel.add(IDLabel);
+        contentPanel.add(IDField);
+        
+        fNameLabel.setPreferredSize(componentDimension);
+        fNameField.setPreferredSize(componentDimension);
+        contentPanel.add(fNameLabel);
+        contentPanel.add(fNameField);
+        fields.add(fNameField);
+        
+        lNameLabel.setPreferredSize(componentDimension);
+        lNameField.setPreferredSize(componentDimension);
+        contentPanel.add(lNameLabel);
+        contentPanel.add(lNameField);
+        fields.add(lNameField);
+        
+        dobLabel.setPreferredSize(componentDimension);
+        dobField.setPreferredSize(componentDimension);
+        contentPanel.add(dobLabel);
+        contentPanel.add(dobField);
+        fields.add(dobField);
+        
+        usernameLabel.setPreferredSize(componentDimension);
+        usernameField.setPreferredSize(componentDimension);
+        contentPanel.add(usernameLabel);
+        contentPanel.add(usernameField);
+        fields.add(usernameField);
+        
+        passwordLabel.setPreferredSize(componentDimension);
+        passwordField.setPreferredSize(componentDimension);
+        contentPanel.add(passwordLabel);
+        contentPanel.add(passwordField);
+        fields.add(passwordField);
+        
+        emailLabel.setPreferredSize(componentDimension);
+        emailField.setPreferredSize(componentDimension);
+        contentPanel.add(emailLabel);
+        contentPanel.add(emailField);
+        fields.add(emailField);
+        
+        homeAddressLabel.setPreferredSize(componentDimension);
+        homeAddressField.setPreferredSize(componentDimension);
+        contentPanel.add(homeAddressLabel);
+        contentPanel.add(homeAddressField);
+        fields.add(homeAddressField);
+        
+        phonePanel.setLayout(new FlowLayout());
+        phonePanel.setPreferredSize(componentDimension);
+        phoneField.setPreferredSize(componentDimension);
+        phonePanel.add(phoneLabel);
+        phonePanel.add(phoneComboBox);
+        contentPanel.add(phonePanel);
+        contentPanel.add(phoneField);
+        fields.add(phoneField);
+        
+        startingWeightLabel.setPreferredSize(componentDimension);
+        startingWeightField.setPreferredSize(componentDimension);
+        contentPanel.add(startingWeightLabel);
+        contentPanel.add(startingWeightField);
+        fields.add(startingWeightField);
+        
+        goalWeightLabel.setPreferredSize(componentDimension);
+        goalWeightField.setPreferredSize(componentDimension);
+        contentPanel.add(goalWeightLabel);
+        contentPanel.add(goalWeightField);
+        fields.add(goalWeightField);
+        
+        newAccountButton.setPreferredSize(componentDimension);
+        newAccountButton.addActionListener((ActionEvent e) -> {
+            newAccountButtonClicked(e);
+        });
+        loginButton.setPreferredSize(componentDimension);
+        loginButton.addActionListener((ActionEvent e) -> {
+            loginButtonClicked(e);
+        });
+        contentPanel.add(newAccountButton);
+        contentPanel.add(loginButton);
+        
+        
+        programFrame.getContentPane().add(contentPanel);
+        programFrame.setSize(500, 500);
+        programFrame.setVisible(true);
+        programFrame.setLocationRelativeTo(null);
+    }
+    
+    public void loginButtonClicked(ActionEvent e){
+        
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        
+        if(username.isEmpty() || password.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Please enter username and password.", 
+                    "Invalid login", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            searchRecords();
+        }
+    }
+    
+    public void newAccountButtonClicked(ActionEvent e){
+        
+        for(JTextField c: fields){
+            String value = c.getText();
+            if(value.isEmpty()){
+                JOptionPane.showMessageDialog(null, "All Fields must be filled",
+                        "Empty field", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        saveRecord();
+    }
+    
+    public void saveRecord(){
+        
+        count += 1;
+        String fName = fNameField.getText();
+        String lName = lNameField.getText();
+        String dob = dobField.getText();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String email = emailField.getText();
+        String address = homeAddressField.getText();
+        String phoneType = phoneComboBox.getSelectedItem().toString();
+        String phone = phoneField.getText();
+        Double startWeight;
+        Double goalWeight;
+        Record newClient = null;
+        
+        try{
+            startWeight = Double.parseDouble(startingWeightField.getText());
+            goalWeight = Double.parseDouble(goalWeightField.getText());
+            newClient = new Record(count, fName, lName, dob, startWeight,
+            username, password, email);
+            newClient.updateAddress(address);
+            newClient.addPhoneNumber(phoneType, phone);
+            newClient.updateGoalWeight(goalWeight);
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Weights must be numerical",
+                    "Non-Numerical Weight", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        clients.put(username, newClient);
+        
+        for(JTextField jt: fields){
+            jt.setText(null);
+        }
+    }
+    
+    public void searchRecords(){
+        
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        
+        if(clients.containsKey(username)){
+            Record testClient = clients.get(username);
+            if(testClient.verifyPassword(password)){
+                IDField.setText(testClient.getID());
+                fNameField.setText(testClient.getFName());
+                lNameField.setText(testClient.getLName());
+                dobField.setText(testClient.getDOB());
+                emailField.setText(testClient.getEmail());
+                homeAddressField.setText(testClient.getAddress());
+                phoneField.setText(testClient.getPhoneNumbers().get("Home"));
+                startingWeightField.setText(testClient.getStartingWeight());
+                goalWeightField.setText(testClient.getGoalWeight());
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Incorrect Login", 
+                        "Incorrect Login", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Record Not found", 
+                    "Record Not found", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public static void main(String[] args) {
+        
+        FitnessTracker userSession = new FitnessTracker();
+        
+    }
+    
+}

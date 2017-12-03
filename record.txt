@@ -1,182 +1,280 @@
-//Group 4
-//Record Class
+/*
+ * Group 4
+ * Record class
+ */
+package fitnesstracker;
 
+/**
+ * Revision History
+ * Revision 1: Nickolas Carter, Initial Class, 2 December 2017
+ * Revision 2: Kimberly Waddle, Reformatting, integration and expansion, 3 December 2017
+ */
 
-//REVISION HISTORY
-//1. Nickolas Carter
-//
+import java.util.*;
 
-
-public class Record{
-  
-   //initializes proper variables
-   int IDNum; 
-   string firstName;
-   string lastName;
-   string dob;
-   string phone;
-   string userName;
-   string password;
-   double startWeight;
-   double percentVeg;
-   double percentProt;
-   double percentCarb;
-   double percentCardio;
-   double percentStrength;
-   HashMap<Date, ArrayList<Food>> foodDiary;
-   HashMap<Date, ArrayList<Exercise>> exerciseDiary;
-   HashMap<Date, double> weightProgress;
-   Date today;
-
-   //builds record object, minimm requirements to build object are name, idnum and dob
-   public Record(int IDNum,string firstName,string lastName, string dob)
-   {
-   IDNum=this.IDNum;
-   firstName=this.firstName;
-   lastName=this.lastName;
-   dob=this.dob;
-  
-   }
-   
-   //ensures that the password is correct, returns false if incorect
-   public Boolean passwordVerify(string testpassword){
-   
-      if (testpassword==password)
-           return true;
-		   
-		   return false;
-   }
-   
-   //sets firstName
-   public void setfirstName(String addName){
-			firstName = addName;
-		}
-	
-//sets last name	
-   public void setlastName(String addName){
-			lastName = addName;
-		}
-		
-   
-	//sets phone number	
-	public void setPhone(String updatePhone){
-			phone = updatePhone;
-		}
-		
-	//sets date of birth
-	public void setDob(Date dateOfBirth){
-			dob = dateOfBirth;
-		}
-	
-	//sets current days date
-	public void setDob(Date currentday){
-			today = currentday;
-		}
-	
-	//sets the starting weight
-	public void setStartWeight(double addStartWeight){
-			startWeight = addStartWeight;
-		}
-	
-	//sets starting diet composition
-	public void setStartDiet(double veg, double meat, double carb){
-			percentVeg = veg;
-			percentMeat = meat;
-			percentCarb = carb;
-		}
-	
-	
-	//sets the starting exercise composition
-	publlic void setStartExercies(double cardio, double strength){
-			percentCardio = cardio;
-			percentStrength = strength;
-		}
-
-	//saves a daily weight metric	
-	public void saveDailyWeight(double newWeight){
-			weightProgress.put(today, newWeight);
-		}
-		
-	//saves the daily food consumpion
-	public void saveFoodDiary(ArrayList<Food> newEntries){
-			foodDiary.put(today, newEntries);
-		}
-		
-	//saves daily exercise regimen 
-	public void saveExerciseDiary(ArrayList<Exercise> newEntries){
-			exerciseDiary.put(today, newEntries);
-		}
-
-   
-   //returns id number
-   public int getIDNum(){
-	   return IDNum;
-   }
-   
-   //returns name
-   public string getName(){
-	   return firstName+" "+lastName;
-   }
-   
-   //returns date of birth
-   public Date getDOB(){
-	   return dob;
-   }
-   
-    //returns phone number
-    public String getPhone(){
-	   return phone;
-   }
-   
-   //retrns starting weight
-    public Double getStartWeight(){
-	   return startWeight;
-   }
-   
-   //returns percent of vegetables
-    public Double getPercentVeg()
-	return percentVeg;
-   }
-   
-   //returns proteing percent of diet
-    public Double getPercentProt(){
-	   return percentProt;
-   }
-   
-   //retrns carb as percent of diet
-    public Double getPercentCarb(){
-	   return percentCarb;
-   }
-   
-   //gets cardio training percent
-    public Double getPercentCardio(){
-	   return percentCardio;
-   }
-   
-   //gets strength training percent
-    public Double getPercentStrength(){
-	   return percentStrength;
-   }
-   
-   //gets exercise diary arraylist
-   public ArrayList<> getExerciseDiary(Date now){
-	   return exerciseDiary.get(now);
-   }
-   
-   //gets food diary arraylist
-   public ArrayList<> getFoodDiary(Date now){
-	   return foodDiary.get(now);
-   }
-   
-   //gets weight progress arraylist
-   public ArrayList<> getWeightProgress(Date now){
-	   return weightprogress.get(now);
-   }
-   
-   
-   
-   
-   
-
-
+public class Record {
+    //datafields for client data
+    private Integer IDNum;
+    private String firstName;
+    private String lastName;
+    private String dob;
+    private String email;
+    private String address;
+    private String username;
+    private String password;
+    private Double startWeight;
+    private Double goalWeight;
+    private Double percentVeg;
+    private Double percentProt;
+    private Double percentCarb;
+    private Double percentCardio;
+    private Double percentStrength;
+    private HashMap<Date, ArrayList<Food>> foodDiary;
+    private HashMap<Date, ArrayList<Exercise>> exerciseDiary;
+    private HashMap<Date, Double> weightProgress;
+    private HashMap<String, String> phoneNumbers;
+    private HashMap<Date, Double> totalPercentVeg;
+    private HashMap<Date, Double> totalPercentProt;
+    private HashMap<Date, Double> totalPercentCarb;
+    private HashMap<Date, Double> totalPercentCardio;
+    private HashMap<Date, Double> totalPercentStrength;
+    private Date todayDate;
+    
+    public Record(int newID, String fNameIn, String lNameIn, String dobIn,
+            Double initialWeight, String usernameIn, String passwordIn, String emailIn){
+        IDNum = newID;
+        firstName = fNameIn;
+        lastName = lNameIn;
+        dob = dobIn;
+        email = emailIn;
+        address = "";
+        username = usernameIn;
+        password = passwordIn;
+        startWeight = initialWeight;
+        goalWeight = 0.0;
+        percentVeg = 0.0;
+        percentProt = 0.0;
+        percentCarb = 0.0;
+        percentCardio = 0.0;
+        percentStrength = 0.0;
+        foodDiary = new HashMap<Date, ArrayList<Food>>();
+        exerciseDiary = new HashMap<Date, ArrayList<Exercise>>();
+        weightProgress = new HashMap<Date, Double>();
+        phoneNumbers = new HashMap<String, String>();
+        totalPercentVeg = new HashMap<Date, Double>();
+        totalPercentProt = new HashMap<Date, Double>();
+        totalPercentCarb = new HashMap<Date, Double>();
+        totalPercentCardio = new HashMap<Date, Double>();
+        totalPercentStrength = new HashMap<Date, Double>();
+        todayDate = new Date();
+    }
+    //verify password
+    public boolean verifyPassword(String testPassword){
+        if(testPassword.equalsIgnoreCase(password)){
+            return true;
+        }
+        return false;
+    }
+    //setters
+    public void updateFName(String newFName){
+        firstName = newFName;
+    }
+    public void updateLName(String newLName){
+        lastName = newLName;
+    }
+    public void updateDOB(String newDOB){
+        dob = newDOB;
+    }
+    public void updateEmail(String newEmail){
+        email = newEmail;
+    }
+    public void updateGoalWeight(double newWeight){
+        goalWeight = newWeight;
+    }
+    public void updateAddress(String newAddress){
+        address = newAddress;
+    }
+    public void updatePercentVeg(double addVeg){
+        percentVeg = addVeg;
+    }
+    public void updatePercentProt(double addProt){
+        percentProt = addProt;
+    }
+    public void updatePercentCarb(double addCarb){
+        percentCarb = addCarb;
+    }
+    public void updatePrecentCardio(double addCardio){
+        percentCardio = addCardio;
+    }
+    public void updatePercentStrength(double addStrength){
+        percentStrength = addStrength;
+    }
+    
+    public void addPhoneNumber(String type, String number){
+        if(!phoneNumbers.containsKey(type) &&
+                !phoneNumbers.containsValue(number)){
+            phoneNumbers.put(type, number);
+        }
+    }
+    
+    public void addFood(Food newFood){
+        todayDate = getToday();
+        ArrayList<Food> foodList = foodDiary.get(todayDate);
+        
+        if(foodList == null){
+            foodList = new ArrayList<Food>();
+            foodList.add(newFood);
+            foodDiary.put(todayDate, foodList);
+        }
+        else{
+            foodList.add(newFood);
+        }
+        
+        this.calculateDailyFoodPercents();
+    }
+    
+    public void addDailyWeight(Double dailyWeight){
+        todayDate = getToday();
+        if(!weightProgress.containsKey(todayDate)){
+            weightProgress.put(todayDate, dailyWeight);
+        }
+    }
+    
+    public void addExercise(Exercise newExercise){
+        todayDate = getToday();
+        ArrayList<Exercise> exerciseList = exerciseDiary.get(todayDate);
+        
+        if(exerciseList == null){
+            exerciseList = new ArrayList<Exercise>();
+            exerciseList.add(newExercise);
+            exerciseDiary.put(todayDate, exerciseList);
+        }
+        else{
+            exerciseList.add(newExercise);
+        }
+        
+        this.calculateDailyExercisePercents();
+    }
+    
+    
+    
+    //getters
+    public String getID(){
+        return IDNum.toString();
+    }
+    public String getFName(){
+        return firstName;
+    }
+    public String getLName(){
+        return lastName;
+    }
+    public String getDOB(){
+        return dob;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public String getAddress(){
+        return address;
+    }
+    public String getStartingWeight(){
+        return startWeight.toString();
+    }
+    public String getGoalWeight(){
+        return goalWeight.toString();
+    }
+    public double getInitialPercentVeg(){
+        return percentVeg;
+    }
+    public double getInitialPercentProt(){
+        return percentProt;
+    }
+    public double getInitialPercentCarb(){
+        return percentCarb;
+    }
+    public double getInitialPercentCardio(){
+        return percentCardio;
+    }
+    public double getInitialPercentStrength(){
+        return percentStrength;
+    }
+    public HashMap<String, String> getPhoneNumbers(){
+        return phoneNumbers;
+    }
+    
+    public Date getToday(){
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        
+        return today.getTime();
+    }
+    
+    public void calculateDailyFoodPercents(){
+        
+        int countVeg = 0;
+        int countProt = 0;
+        int countCarb = 0;
+        
+        int total = 0;
+        
+        todayDate = getToday();
+        
+        ArrayList<Food> dailyFoods = foodDiary.get(todayDate);
+        
+        for(Food f: dailyFoods){
+            String type = f.getType().toUpperCase();
+            switch(type){
+                case "VEG":
+                    countVeg++;
+                    break;
+                case "PROT":
+                    countProt++;
+                    break;
+                case "CARB":
+                    countCarb++;
+                    break;
+            }
+        }
+        
+        total = countVeg + countProt + countCarb;
+        
+        double vegPercent = (countVeg/total)*100;
+        double protPercent = (countProt/total)*100;
+        double carbPercent = (countCarb/total)*100;
+        
+        totalPercentVeg.put(todayDate, vegPercent);
+        totalPercentProt.put(todayDate, protPercent);
+        totalPercentCarb.put(todayDate, carbPercent);
+    }
+    public void calculateDailyExercisePercents(){
+        
+        todayDate = getToday();
+        
+        int countCardio = 0;
+        int countStrength = 0;
+        
+        int total = 0;
+        
+        ArrayList<Exercise> dailyExercise = exerciseDiary.get(todayDate);
+        
+        for(Exercise e: dailyExercise){
+            String type = e.getType().toUpperCase();
+            switch(type){
+                case "CARDIO":
+                    countCardio++;
+                    break;
+                case "STRENGTH":
+                    countStrength++;
+                    break;
+            }
+        }
+        
+        total = countCardio + countStrength;
+        
+        double cardioPercent = (countCardio/total)*100;
+        double strengthPercent = (countStrength/total)*100;
+        
+        totalPercentCardio.put(todayDate, cardioPercent);
+        totalPercentStrength.put(todayDate, strengthPercent);
+    }
 }
